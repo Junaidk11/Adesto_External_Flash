@@ -31,7 +31,7 @@
 
 //*****************************************************************************
 //
-// Adesto External Flash's Interface Functions
+// Adesto External Flash's Interface Functions - Testing GitDesktop App
 //
 //*****************************************************************************
 
