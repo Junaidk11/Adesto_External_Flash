@@ -62,24 +62,118 @@ void ChipSelect(uint32_t value)
 
 void ReadId(void)
 {
-
-        uint8_t manufacturingId, deviceId; // Create Place holders for Manufacturing and Device ID
-
+        uint8_t manufacturingId, deviceId;                  // Create Place holders for Manufacturing and Device ID
         UARTprintf("Acquiring Flash Info...\n");
-
-        ChipSelect(~GPIO_PIN_3);    //Assert External Flash Chip-select
-
-        TransferByte(AT_READ_ID);      // Adesto's Instruction Command to retrieve Device Information
-        TransferByte(0x00);            // Dummy byte
-        TransferByte(0x00);            // Dummy byte
-        TransferByte(0x00);            // Dummy byte
-        manufacturingId = TransferByte(0x00);   // Manufacturing ID
-        deviceId= TransferByte(0x00); // Device ID
-
-        ChipSelect(GPIO_PIN_3);     // Deassert External Flash Chip-Select
-
+        ChipSelect(~GPIO_PIN_3);                            //Assert External Flash Chip-select
+        TransferByte(AT_READ_ID);                           // Adesto's Instruction Command to retrieve Device Information
+        TransferByte(0x00);                                 // Dummy byte
+        TransferByte(0x00);                                 // Dummy byte
+        TransferByte(0x00);                                 // Dummy byte
+        manufacturingId = TransferByte(0x00);               // Manufacturing ID
+        deviceId= TransferByte(0x00);                       // Device ID
+        ChipSelect(GPIO_PIN_3);                             // Deassert External Flash Chip-Select
         UARTprintf("Manufacturing ID: \%2x\n", manufacturingId);
         UARTprintf("Device ID: \%2x\n", deviceId);
 
 }
+
+/*
+ *      This function is used to Program a page of the External FLash. Page = 256 Bytes.
+ *      First, you need to send Write Enable Command after assertion of Chip-Select. To indicate End of Communication, deassert Chip-Select.
+ *      Next, send Page Program Command, followed by 24-bit start Address, followed by the 256 Bytes of data - A byte at a time.
+ *      After 256th Byte, Deassert Chip-Select - Indicates the data to be stored in the Flash has been sent.
+ *      After Deassertion, the Flash starts Programming its Memory starting at the 24-bit address - you need to wait until the device has finished writing
+ *      all 256 bytes to its Memory.
+ *
+ */
+
+void PageWrite(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *Data);
+{
+       ChipSelect(~GPIO_PIN_3);                    // Assert External Flash Chip-Select
+       TransferByte(AT_WRITE_ENABLE);              // Send Write-Enable Command to the External Flash
+       ChipSelect(GPIO_PIN_3);                     // Deassert External Flash  Chip-Select
+       ChipSelect(~GPIO_PIN_3);                    // Assert External Flash Chip-Select Program Page
+       TransferByte(AT_PAGE_PROGRAM);              // Send Page Program Command to Flash
+       TransferByte((startAddress >> 16) & 0xFF);  // Extracting Address Byte A23:A16 and Sending to Flash
+       TransferByte((startAddress >>  8) & 0xFF);  // Extracting Address Byte A15:A08 and Sending to Flash
+       TransferByte((startAddress >>  0) & 0xFF);  // Extracting Address Byte A07:A00 and Sending to Flash
+
+       // Now transfer Data
+       int i;
+       for (i = 0; i < num_byte; i++) {
+           TransferByte(src[i]);
+       }
+       ChipSelect(GPIO_PIN_3);                    // Deassert External Flash Chip-Select to signal end of communication.
+
+       DeviceBusyDelay();                         // Wait till Flash Programs a page; Flash programs its memory after Chip-Select Deasserted.
+}
+
+/*
+ *  This function is used to read device status; The 8-bit data returned by Adesto is used to determine device status.
+ *   Returned Byte value = 1     Device Busy
+ *   Returned Byte value = 0     Device Ready
+ */
+void DeviceBusyWait(void)
+{
+        ChipSelect(~GPIO_PIN_3);                    //Assert Flash Chip-Select
+        TransferByte(AT_READ_STATUS_FORMAT_1);      //Request Device Status
+        while (TransferByte(0x00) & 1);             //Wait till Device is Ready
+        chip_select(GPIO_PIN_3);                    //Deassert Flash Chip-Select
+}
+
+void WriteToFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *Data)
+{
+        uint8_t numberOfFullPages = 0, numberOfSingleBytes = 0, pageNotAligned = 0,  leftOverBytes = 0;
+        pageNotAligned = startAddress % AT_PAGE_SIZE_256;   // Checking if start Address aligns with 256 Byte Page Boundary (i.e. checking if A07:A00 = 0x00)
+        // number of Full pages
+        numberOfFullPages = numberOfBytes / AT_PAGE_SIZE_256;
+        // number of Single bytes remaining
+        numberOfSingleBytes = numberOfBytes % AT_PAGE_SIZE_256;
+
+
+        if (pageNotAligned == 0) // Start Address is Aligned with Page Boundaries ; 0-FF => 100h, 256 Bytes = 1 Page = 100h
+        {
+            while (numebrOfFullPages--)
+            {
+                PageWrite(startAddress, WB_PAGE_SIZE_256, Data);
+                startAddress += WB_PAGE_SIZE_256;
+                Data += WB_PAGE_SIZE_256;
+            }
+            if (numberOfSingleBytes > 0) // If total pages not a whole number, the remaining bytes are written on the next page.
+            {
+                PageWrite(startAddress, numberOfSingleBytes, Data);
+            }
+        }
+        else     // Start Address is not Aligned with Page Boundaries
+        {
+            leftOverBytes = AT_PAGE_SIZE_256 - pageNotAligned;    // The number of bytes remaining to form a page of 256 Bytes.
+            if(numberOfBytes<leftOverBytes)
+            {
+                PageWrite(startAddress, numberOfBytes, Data)
+
+            }
+            else if (numberOfBytes>leftOverBytes)
+            {
+                PageWrite(startAddress,leftOverBytes,Data);           // Page completely programmed.
+                startAddress+=leftOverBytes;                          // Moving address to the start of Next Page.
+                Data+=leftOverBytes;                                  // Increment Data Index
+
+                // Now we can write pages to the External Flash - First calculate number of bytes remaining
+                numberOfBytes-=leftOverBytes;
+                numberOfFullPages = numberOfBytes % AT_PAGE_SIZE_256;
+                numberOfSingleBytes = numberOfBytes % AT_PAGE_SIZE_256;
+                while (numebrOfFullPages--)
+                {
+                    PageWrite(startAddress, WB_PAGE_SIZE_256, Data);
+                    startAddress += WB_PAGE_SIZE_256;
+                    Data += WB_PAGE_SIZE_256;
+                }
+               if (numberOfSingleBytes > 0) // If total pages not a whole number, the remaining bytes are written on the next page.
+                {
+                   PageWrite(startAddress, numberOfSingleBytes, Data);
+                }
+            }
+        }
+}
+
 
