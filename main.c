@@ -56,11 +56,11 @@ int main()
        SysCtlClockSet(SYSCTL_SYSDIV_2_5 | SYSCTL_USE_PLL |SYSCTL_OSC_MAIN | SYSCTL_XTAL_16MHZ);
 
        // Initialize peripherals
-       UART_Init()
+       UART_Init();
        SPI_Init();
 
        // Confirm Communicating with External Flash
-       ReadId()
+       ReadId();
        // Read From a 32-bit address and store result into pui32Da
        ReadFlash(0x000100, 8, pui8DataRx);
 

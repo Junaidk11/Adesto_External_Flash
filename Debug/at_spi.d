@@ -1,0 +1,45 @@
+# FIXED
+
+at_spi.obj: ../at_spi.c
+at_spi.obj: ../at_spi.h
+at_spi.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdint.h
+at_spi.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/_stdint40.h
+at_spi.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/stdint.h
+at_spi.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/cdefs.h
+at_spi.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/_types.h
+at_spi.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/machine/_types.h
+at_spi.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/machine/_stdint.h
+at_spi.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/_stdint.h
+at_spi.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdbool.h
+at_spi.obj: /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/inc/hw_memmap.h
+at_spi.obj: /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/inc/hw_ssi.h
+at_spi.obj: /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/inc/hw_types.h
+at_spi.obj: /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/inc/hw_gpio.h
+at_spi.obj: /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/driverlib/ssi.h
+at_spi.obj: /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/driverlib/gpio.h
+at_spi.obj: /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/driverlib/pin_map.h
+at_spi.obj: /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/driverlib/sysctl.h
+at_spi.obj: /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/driverlib/interrupt.h
+at_spi.obj: /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/inc/tm4c123gh6pm.h
+
+../at_spi.c: 
+../at_spi.h: 
+/Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdint.h: 
+/Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/_stdint40.h: 
+/Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/stdint.h: 
+/Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/cdefs.h: 
+/Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/_types.h: 
+/Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/machine/_types.h: 
+/Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/machine/_stdint.h: 
+/Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/_stdint.h: 
+/Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdbool.h: 
+/Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/inc/hw_memmap.h: 
+/Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/inc/hw_ssi.h: 
+/Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/inc/hw_types.h: 
+/Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/inc/hw_gpio.h: 
+/Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/driverlib/ssi.h: 
+/Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/driverlib/gpio.h: 
+/Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/driverlib/pin_map.h: 
+/Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/driverlib/sysctl.h: 
+/Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/driverlib/interrupt.h: 
+/Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/inc/tm4c123gh6pm.h: 

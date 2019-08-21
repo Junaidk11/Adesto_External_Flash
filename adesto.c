@@ -72,8 +72,8 @@ void ReadId(void)
         manufacturingId = TransferByte(0x00);               // Manufacturing ID
         deviceId= TransferByte(0x00);                       // Device ID
         ChipSelect(GPIO_PIN_3);                             // Deassert External Flash Chip-Select
-        UARTprintf("Manufacturing ID: \%2x\n", manufacturingId);
-        UARTprintf("Device ID: \%2x\n", deviceId);
+        UARTprintf("Manufacturing ID: \n", manufacturingId);
+        UARTprintf("Device ID: \n", deviceId);
 
 }
 
@@ -87,7 +87,7 @@ void ReadId(void)
  *
  */
 
-void PageWrite(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *Data);
+void PageWrite(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *Data)
 {
        ChipSelect(~GPIO_PIN_3);                    // Assert External Flash Chip-Select
        TransferByte(AT_WRITE_ENABLE);              // Send Write-Enable Command to the External Flash
@@ -100,12 +100,12 @@ void PageWrite(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *Data);
 
        // Now transfer Data
        int i;
-       for (i = 0; i < num_byte; i++) {
-           TransferByte(src[i]);
+       for (i = 0; i < numberOfBytes; i++) {
+           TransferByte(Data[i]);
        }
        ChipSelect(GPIO_PIN_3);                    // Deassert External Flash Chip-Select to signal end of communication.
 
-       DeviceBusyWait();                         // Wait till Flash Programs a page; Flash programs its memory after Chip-Select Deasserted.
+       DeviceBusyDelay();                         // Wait till Flash Programs a page; Flash programs its memory after Chip-Select Deasserted.
 }
 
 /*
@@ -113,7 +113,7 @@ void PageWrite(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *Data);
  *   Returned Byte value = 1     Device Busy
  *   Returned Byte value = 0     Device Ready
  */
-void DeviceBusyWait(void)
+void DeviceBusyDelay(void)
 {
         ChipSelect(~GPIO_PIN_3);                    //Assert Flash Chip-Select
         TransferByte(AT_READ_STATUS_FORMAT_1);      //Request Device Status
@@ -141,11 +141,11 @@ void WriteToFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *Data)
 
         if (pageNotAligned == 0) // Start Address is Aligned with Page Boundaries ; 0-FF => 100h, 256 Bytes = 1 Page = 100h
         {
-            while (numebrOfFullPages--)
+            while (numberOfFullPages--)
             {
-                PageWrite(startAddress, WB_PAGE_SIZE_256, Data);
-                startAddress += WB_PAGE_SIZE_256;
-                Data += WB_PAGE_SIZE_256;
+                PageWrite(startAddress, AT_PAGE_SIZE_256, Data);
+                startAddress += AT_PAGE_SIZE_256;
+                Data += AT_PAGE_SIZE_256;
             }
             if (numberOfSingleBytes > 0) // If total pages not a whole number, the remaining bytes are written on the next page.
             {
@@ -157,7 +157,7 @@ void WriteToFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *Data)
             leftOverBytes = AT_PAGE_SIZE_256 - pageNotAligned;    // The number of bytes remaining to form a page of 256 Bytes.
             if(numberOfBytes<leftOverBytes)
             {
-                PageWrite(startAddress, numberOfBytes, Data)
+                PageWrite(startAddress, numberOfBytes, Data);
 
             }
             else if (numberOfBytes>leftOverBytes)
@@ -170,11 +170,11 @@ void WriteToFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *Data)
                 numberOfBytes-=leftOverBytes;
                 numberOfFullPages = numberOfBytes % AT_PAGE_SIZE_256;
                 numberOfSingleBytes = numberOfBytes % AT_PAGE_SIZE_256;
-                while (numebrOfFullPages--)
+                while (numberOfFullPages--)
                 {
-                    PageWrite(startAddress, WB_PAGE_SIZE_256, Data);
-                    startAddress += WB_PAGE_SIZE_256;
-                    Data += WB_PAGE_SIZE_256;
+                    PageWrite(startAddress, AT_PAGE_SIZE_256, Data);
+                    startAddress += AT_PAGE_SIZE_256;
+                    Data += AT_PAGE_SIZE_256;
                 }
                if (numberOfSingleBytes > 0) // If total pages not a whole number, the remaining bytes are written on the next page.
                 {
@@ -184,7 +184,7 @@ void WriteToFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *Data)
         }
 }
 
-void ReadFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *DataRx);
+void ReadFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *DataRx)
 {
         ChipSelect(~GPIO_PIN_3);                    // Assert External Flash Chip select
         TransferByte(AT_READ_DATA);                 // Send Adesto Command for requesting Data from Flash.
@@ -199,7 +199,7 @@ void ReadFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *DataRx);
         }
 
         ChipSelect(GPIO_PIN_3);                     // Deassert External Flash Chip select
-        DeviceBusyWait();                           // Wait till the Device has sent all the Bytes
+        DeviceBusyDelay();                           // Wait till the Device has sent all the Bytes
 
 }
 
