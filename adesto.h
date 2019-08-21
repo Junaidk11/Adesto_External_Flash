@@ -1,7 +1,7 @@
 /*
- * adesto.h
+ *      adesto.h
  *
- *  Created on: Aug 19, 2019
+ *      Created on: Aug 19, 2019
  *      Author: junaidkhan
  */
 
@@ -42,5 +42,6 @@ void ReadId(void);
 void PageWrite(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *Data);
 void DeviceBusyDelay(void);
 void WriteToFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *Data);
+void ReadFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *DataRx);
 
 #endif /* ADESTO_H_ */

@@ -35,7 +35,7 @@
 //
 //*****************************************************************************
 
-void SPIInit(void);
+void SPI_Init(void);
 uint8_t TransferByte(uint8_t Byte);
 void SSI0IntHandler(void);
 

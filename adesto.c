@@ -1,5 +1,5 @@
 /*
- * adesto.c
+ *      adesto.c
  *
  *      Created on: Aug 19, 2019
  *      Author: junaidkhan
@@ -105,7 +105,7 @@ void PageWrite(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *Data);
        }
        ChipSelect(GPIO_PIN_3);                    // Deassert External Flash Chip-Select to signal end of communication.
 
-       DeviceBusyDelay();                         // Wait till Flash Programs a page; Flash programs its memory after Chip-Select Deasserted.
+       DeviceBusyWait();                         // Wait till Flash Programs a page; Flash programs its memory after Chip-Select Deasserted.
 }
 
 /*
@@ -118,8 +118,16 @@ void DeviceBusyWait(void)
         ChipSelect(~GPIO_PIN_3);                    //Assert Flash Chip-Select
         TransferByte(AT_READ_STATUS_FORMAT_1);      //Request Device Status
         while (TransferByte(0x00) & 1);             //Wait till Device is Ready
-        chip_select(GPIO_PIN_3);                    //Deassert Flash Chip-Select
+        ChipSelect(GPIO_PIN_3);                    //Deassert Flash Chip-Select
 }
+
+
+/*
+ *  This function is used to Write Data to the External Flash given the StartingAddress, number of Bytes to write and Pointer
+ *  to the data to be written to the External Flash.
+ *  The function checks if the starting address aligns with the a 256 Byte page Address and based on the alignment result,
+ *  sends bytes of Data to Flash's internal buffer via the PageWrite Method.
+ */
 
 void WriteToFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *Data)
 {
@@ -174,6 +182,25 @@ void WriteToFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *Data)
                 }
             }
         }
+}
+
+void ReadFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *DataRx);
+{
+        ChipSelect(~GPIO_PIN_3);                    // Assert External Flash Chip select
+        TransferByte(AT_READ_DATA);                 // Send Adesto Command for requesting Data from Flash.
+        TransferByte((startAddress >> 16) & 0xFF);  // Extract A23-A16 from the 32-bit Start Address and send to Flash
+        TransferByte((startAddress >>  8) & 0xFF);  // Extract A15-A08 from the 32-bit Start Address and send to Flash
+        TransferByte((startAddress >>  0) & 0xFF);  // Extract A07-A00 from the 32-bit Start Address and send to Flash
+
+        int i;
+        for (i = 0; i < numberOfBytes; i++)
+        {
+            DataRx[i] = TransferByte(0x00);         // Send dummy data to retrieve Data from the sent startAddress.
+        }
+
+        ChipSelect(GPIO_PIN_3);                     // Deassert External Flash Chip select
+        DeviceBusyWait();                           // Wait till the Device has sent all the Bytes
+
 }
 
 

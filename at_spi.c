@@ -25,7 +25,7 @@ volatile uint32_t InterruptWait =0;
  */
 
 
-void SPIInit(void)
+void SPI_Init(void)
 {
 
      // Enable clock access to SPI Module 0
