@@ -8,10 +8,18 @@
 #ifndef ADESTO_H_
 #define ADESTO_H_
 
-#include "at_spi.h"
-#include "driverlib/uart.h"
-#include "utils/uartstdio.h"
-
+#include <stdint.h>
+#include <stdbool.h>
+#include "inc/hw_memmap.h"
+#include "inc/hw_ssi.h"
+#include "inc/hw_types.h"
+#include "inc/hw_gpio.h"
+#include "driverlib/ssi.h"
+#include "driverlib/gpio.h"
+#include "driverlib/pin_map.h"
+#include "driverlib/sysctl.h"
+#include "driverlib/interrupt.h"
+#include "inc/tm4c123gh6pm.h"
 //*****************************************************************************
 //
 // Adesto(AT) External Flash's Command MACROS
@@ -28,7 +36,6 @@
 #define AT_BLOCK_ERASE_64           0xd8
 #define AT_PAGE_SIZE_256            0x100     // 1 Page  = 256 Bytes
 #define AT_BLOCK_SIZE_64            0x10000   // 1 Block = 64  KiloBytes
-
 //*****************************************************************************
 //
 // Adesto External Flash's Interface Functions

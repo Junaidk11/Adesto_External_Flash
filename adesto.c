@@ -5,7 +5,15 @@
  *      Author: junaidkhan
  */
 
+
 #include "adesto.h"
+#include "driverlib/uart.h"
+#include "utils/uartstdio.h"
+#include <stdint.h>
+#include <stdbool.h>
+#include "at_spi.h"
+
+
 
 /*
  * UART Pin Configuration
@@ -18,7 +26,8 @@
 /*
  * Function used for Initializing UART Module 0 for printing Serial Data - for testing the SPI communication
  */
-void UART_Init(void) {
+void UART_Init(void)
+{
     // Enable clock access to the GPIO Peripheral used by the UART - Use GPIO Port A, as we're already using it for SPI com
     SysCtlPeripheralEnable(SYSCTL_PERIPH_GPIOA);
 
@@ -34,7 +43,7 @@ void UART_Init(void) {
     UARTClockSourceSet(UART0_BASE, UART_CLOCK_PIOSC);
 
     // Initialize the UART for console I/O.
-    UARTStdioConfig(0, 9600, 16000000);
+    //UARTStdioConfig(0, 9600, 16000000);
 }
 
 /*
@@ -63,7 +72,7 @@ void ChipSelect(uint32_t value)
 void ReadId(void)
 {
         uint8_t manufacturingId, deviceId;                  // Create Place holders for Manufacturing and Device ID
-        UARTprintf("Acquiring Flash Info...\n");
+        //UARTprintf("Acquiring Flash Info...\n");
         ChipSelect(~GPIO_PIN_3);                            //Assert External Flash Chip-select
         TransferByte(AT_READ_ID);                           // Adesto's Instruction Command to retrieve Device Information
         TransferByte(0x00);                                 // Dummy byte
@@ -72,8 +81,8 @@ void ReadId(void)
         manufacturingId = TransferByte(0x00);               // Manufacturing ID
         deviceId= TransferByte(0x00);                       // Device ID
         ChipSelect(GPIO_PIN_3);                             // Deassert External Flash Chip-Select
-        UARTprintf("Manufacturing ID: \n", manufacturingId);
-        UARTprintf("Device ID: \n", deviceId);
+        //UARTprintf("Manufacturing ID: \n", manufacturingId);
+        //UARTprintf("Device ID: \n", deviceId);
 
 }
 
@@ -202,5 +211,3 @@ void ReadFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *DataRx)
         DeviceBusyDelay();                           // Wait till the Device has sent all the Bytes
 
 }
-
-

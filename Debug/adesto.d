@@ -2,7 +2,6 @@
 
 adesto.obj: ../adesto.c
 adesto.obj: ../adesto.h
-adesto.obj: ../at_spi.h
 adesto.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdint.h
 adesto.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/_stdint40.h
 adesto.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/stdint.h
@@ -25,10 +24,10 @@ adesto.obj: /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/inc/tm4c123gh6pm.h
 adesto.obj: /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/driverlib/uart.h
 adesto.obj: /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/utils/uartstdio.h
 adesto.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdarg.h
+adesto.obj: ../at_spi.h
 
 ../adesto.c: 
 ../adesto.h: 
-../at_spi.h: 
 /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdint.h: 
 /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/_stdint40.h: 
 /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/stdint.h: 
@@ -51,3 +50,4 @@ adesto.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/in
 /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/driverlib/uart.h: 
 /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/utils/uartstdio.h: 
 /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdarg.h: 
+../at_spi.h: 
