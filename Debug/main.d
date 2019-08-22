@@ -1,6 +1,7 @@
 # FIXED
 
 main.obj: ../main.c
+main.obj: ../at_spi.h
 main.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdint.h
 main.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/_stdint40.h
 main.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/stdint.h
@@ -10,7 +11,6 @@ main.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/incl
 main.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/machine/_stdint.h
 main.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/_stdint.h
 main.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdbool.h
-main.obj: ../at_spi.h
 main.obj: /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/inc/hw_memmap.h
 main.obj: /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/inc/hw_ssi.h
 main.obj: /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/inc/hw_types.h
@@ -27,6 +27,7 @@ main.obj: /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/utils/uartstdio.h
 main.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdarg.h
 
 ../main.c: 
+../at_spi.h: 
 /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdint.h: 
 /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/_stdint40.h: 
 /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/stdint.h: 
@@ -36,7 +37,6 @@ main.obj: /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/incl
 /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/machine/_stdint.h: 
 /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/sys/_stdint.h: 
 /Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include/stdbool.h: 
-../at_spi.h: 
 /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/inc/hw_memmap.h: 
 /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/inc/hw_ssi.h: 
 /Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/inc/hw_types.h: 

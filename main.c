@@ -6,18 +6,6 @@
  */
 
 
-/*
- *  From at_spi.h
- */
-#include <stdint.h>
-#include <stdbool.h>
-
-
-
-/*
- *  From adesto.h
- */
-
 #include "at_spi.h"
 #include "adesto.h"
 /*
