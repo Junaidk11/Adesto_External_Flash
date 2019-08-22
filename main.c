@@ -11,24 +11,14 @@
  */
 #include <stdint.h>
 #include <stdbool.h>
-#include "inc/hw_memmap.h"
-#include "inc/hw_ssi.h"
-#include "inc/hw_types.h"
-#include "inc/hw_gpio.h"
-#include "driverlib/ssi.h"
-#include "driverlib/gpio.h"
-#include "driverlib/pin_map.h"
-#include "driverlib/sysctl.h"
-#include "driverlib/interrupt.h"
-#include "inc/tm4c123gh6pm.h"
+
 
 
 /*
  *  From adesto.h
  */
+
 #include "at_spi.h"
-#include "driverlib/uart.h"
-#include "utils/uartstdio.h"
 #include "adesto.h"
 /*
  * SPI Pin Configuration
@@ -62,15 +52,15 @@ int main()
        // Confirm Communicating with External Flash
        ReadId();
        // Read From a 32-bit address and store result into pui32Da
-       ReadFlash(0x000100, 8, pui8DataRx);
+       ReadFlash(0x000100, SSI_DATA, pui8DataRx);
 
-       ReadFlash(0x3FFF00, 8, pui8DataRx);
+       ReadFlash(0x3FFF00, SSI_DATA, pui8DataRx);
 
        uint8_t pui8DataTx[] = {0x34, 0xFF, 0x12, 0x23, 0x45, 0xAB, 0xDF, 0xEF} ; // Transmission Commands for the External Flash
 
        // Write to Specific Address on the Flash
-       WriteToFlash(0x3FFF00,  8,  pui8DataTx);
-       ReadFlash(0x3FFF00, 8, pui8DataRx);
+       WriteToFlash(0x3FFF00,  SSI_DATA,  pui8DataTx);
+       ReadFlash(0x3FFF00, SSI_DATA, pui8DataRx);
 
        return 0;
 

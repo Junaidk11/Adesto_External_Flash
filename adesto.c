@@ -7,13 +7,6 @@
 
 
 #include "adesto.h"
-#include "driverlib/uart.h"
-#include "utils/uartstdio.h"
-#include <stdint.h>
-#include <stdbool.h>
-#include "at_spi.h"
-
-
 
 /*
  * UART Pin Configuration

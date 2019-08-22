@@ -21,6 +21,7 @@
 #include "driverlib/interrupt.h"
 #include "inc/tm4c123gh6pm.h"
 
+
 //*****************************************************************************
 //
 //  Interface Macros for SPI Com b/w Master & Adesto Flash Memory

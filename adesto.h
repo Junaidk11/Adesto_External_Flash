@@ -10,16 +10,9 @@
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "inc/hw_memmap.h"
-#include "inc/hw_ssi.h"
-#include "inc/hw_types.h"
-#include "inc/hw_gpio.h"
-#include "driverlib/ssi.h"
-#include "driverlib/gpio.h"
-#include "driverlib/pin_map.h"
-#include "driverlib/sysctl.h"
-#include "driverlib/interrupt.h"
-#include "inc/tm4c123gh6pm.h"
+#include "driverlib/uart.h"
+#include "utils/uartstdio.h"
+#include "at_spi.h"
 //*****************************************************************************
 //
 // Adesto(AT) External Flash's Command MACROS
