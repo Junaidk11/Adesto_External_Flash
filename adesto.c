@@ -214,9 +214,9 @@ void ReadFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *DataRx)
 void PrintPage(uint8_t *Data)
 {
        uint8_t row, column;
-       for (row = 0; i < 16; i++) {
-           for (column = 0; j < 16; j++) {
-               UARTprintf("\%02x ", Data[row * 16 + column]);
+       for (row = 0; row < 16; row++) {
+           for (column = 0; column < 16; column++) {
+               UARTprintf("\%2x", Data[row * 16 + column]);
            }
            UARTprintf("\n"); // Jump to next row.
        }
