@@ -5,9 +5,9 @@
  *      Author: junaidkhan
  */
 
-
 #include "at_spi.h"
 #include "adesto.h"
+
 /*
  * SPI Pin Configuration
  *
@@ -46,8 +46,10 @@ int main()
 
        uint8_t pui8DataTx[] = {0x34, 0xFF, 0x12, 0x23, 0x45, 0xAB, 0xDF, 0xEF} ; // Transmission Commands for the External Flash
 
+       EraseFlash(0x3FFF00, SSI_DATA);
        // Write to Specific Address on the Flash
        WriteToFlash(0x3FFF00,  SSI_DATA,  pui8DataTx);
+
        ReadFlash(0x3FFF00, SSI_DATA, pui8DataRx);
 
        return 0;

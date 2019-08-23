@@ -12,6 +12,7 @@ ORDERED_OBJS += \
 "./at_spi.obj" \
 "./main.obj" \
 "./tm4c123gh6pm_startup_ccs.obj" \
+"./uartstdio.obj" \
 "../tm4c123gh6pm.cmd" \
 $(GEN_CMDS__FLAG) \
 -l"/Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/driverlib/ccs/Debug/driverlib.lib" \
@@ -156,8 +157,8 @@ ExternalFlash.hex: $(EXE_OUTPUTS)
 # Other Targets
 clean:
 	-$(RM) $(BIN_OUTPUTS__QUOTED)$(EXE_OUTPUTS__QUOTED)
-	-$(RM) "adesto.obj" "at_spi.obj" "main.obj" "tm4c123gh6pm_startup_ccs.obj" 
-	-$(RM) "adesto.d" "at_spi.d" "main.d" "tm4c123gh6pm_startup_ccs.d" 
+	-$(RM) "adesto.obj" "at_spi.obj" "main.obj" "tm4c123gh6pm_startup_ccs.obj" "uartstdio.obj" 
+	-$(RM) "adesto.d" "at_spi.d" "main.d" "tm4c123gh6pm_startup_ccs.d" "uartstdio.d" 
 	-@echo 'Finished clean'
 	-@echo ' '
 

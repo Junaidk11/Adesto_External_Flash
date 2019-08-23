@@ -43,5 +43,8 @@ void PageWrite(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *Data);
 void DeviceBusyDelay(void);
 void WriteToFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *Data);
 void ReadFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *DataRx);
+void EraseBlock(uint32_t startAddress, uint32_t numberOfBytes);
+void EraseChip(void);
+void PrintPage(uint8_t *Data);
 
 #endif /* ADESTO_H_ */

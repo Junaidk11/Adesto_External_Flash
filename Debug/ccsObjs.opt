@@ -1,1 +1,1 @@
-"./adesto.obj" "./at_spi.obj" "./main.obj" "./tm4c123gh6pm_startup_ccs.obj" "../tm4c123gh6pm.cmd" -l"/Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/driverlib/ccs/Debug/driverlib.lib" -llibc.a 
+"./adesto.obj" "./at_spi.obj" "./main.obj" "./tm4c123gh6pm_startup_ccs.obj" "./uartstdio.obj" "../tm4c123gh6pm.cmd" -l"/Users/junaidkhan/ti/tivaware_c_series_2_1_4_178/driverlib/ccs/Debug/driverlib.lib" -llibc.a 

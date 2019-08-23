@@ -7,6 +7,7 @@
 
 
 #include "adesto.h"
+#include "utils/uartstdio.h"
 
 /*
  * UART Pin Configuration
@@ -36,7 +37,7 @@ void UART_Init(void)
     UARTClockSourceSet(UART0_BASE, UART_CLOCK_PIOSC);
 
     // Initialize the UART for console I/O.
-    //UARTStdioConfig(0, 9600, 16000000);
+    UARTStdioConfig(0, 9600, 16000000);
 }
 
 /*
@@ -65,7 +66,7 @@ void ChipSelect(uint32_t value)
 void ReadId(void)
 {
         uint8_t manufacturingId, deviceId;                  // Create Place holders for Manufacturing and Device ID
-        //UARTprintf("Acquiring Flash Info...\n");
+        UARTprintf("Acquiring Flash Info...\n");
         ChipSelect(~GPIO_PIN_3);                            //Assert External Flash Chip-select
         TransferByte(AT_READ_ID);                           // Adesto's Instruction Command to retrieve Device Information
         TransferByte(0x00);                                 // Dummy byte
@@ -74,8 +75,8 @@ void ReadId(void)
         manufacturingId = TransferByte(0x00);               // Manufacturing ID
         deviceId= TransferByte(0x00);                       // Device ID
         ChipSelect(GPIO_PIN_3);                             // Deassert External Flash Chip-Select
-        //UARTprintf("Manufacturing ID: \n", manufacturingId);
-        //UARTprintf("Device ID: \n", deviceId);
+        UARTprintf("Manufacturing ID: \n", manufacturingId);
+        UARTprintf("Device ID: \n", deviceId);
 
 }
 
@@ -201,6 +202,84 @@ void ReadFlash(uint32_t startAddress, uint32_t numberOfBytes, uint8_t *DataRx)
         }
 
         ChipSelect(GPIO_PIN_3);                     // Deassert External Flash Chip select
-        DeviceBusyDelay();                           // Wait till the Device has sent all the Bytes
+        DeviceBusyDelay();                          // Wait till the Device has sent all the Bytes
 
+        UARTprintf("Received all %n bytes from starting address 0x%2",numberOfBytes,(startAddress>>16));
+        UARTprintf("%2", (startAddress >> 8)); //Prints A15-A8
+        UARTprintf("%2\r\n", startAddress); // Prints bits A7-A0
+
+        PrintPage(DataRx);
+
+}
+void PrintPage(uint8_t *Data)
+{
+       uint8_t row, column;
+       for (row = 0; i < 16; i++) {
+           for (column = 0; j < 16; j++) {
+               UARTprintf("\%02x ", Data[row * 16 + column]);
+           }
+           UARTprintf("\n"); // Jump to next row.
+       }
+}
+
+void EraseFlash(uint32_t startAddress, uint32_t numberOfBytes)
+{
+
+        UARTprintf("Erasing %n Bytes of Data from Starting Address 0x%2", numberOfBytes, (startAddress >> 16)); // Prints bits A23-A16 of Address
+        UARTprintf("%2", (startAddress >> 8)); //Prints A15-A8
+        UARTprintf("%2\r\n", startAddress); // Prints bits A7-A0
+
+        uint8_t numberOf_64KB_Blocks = 0, numberOfSingleBytes = 0;
+
+        numberOf_64KB_Blocks = numberOfBytes / AT_BLOCK_SIZE_64;  //number of 64KB blocks
+        numberOfSingleBytes = numberOfBytes % AT_BLOCK_SIZE_64;  // number of Single Bytes - leftovers
+
+        while (numberOf_64KB_Blocks--) {
+            EraseBlock(startAddress);
+            startAddress += AT_BLOCK_SIZE_64;
+            numberOfBytes -= AT_BLOCK_SIZE_64;
+        }
+
+        if (numberOfSingleBytes > 0) {
+            EraseBlock(startAddress);
+        }
+
+        UARTprintf("Done\r\n\r\n");
+        UARTprintf("Erased %n Bytes of Data from Starting Address 0x%2", numberOfBytes, (startAddress >> 16)); // Prints bits A23-A16 of Address
+        UARTprintf("%x", (startAddress >> 8)); //Prints bits A15-A8
+        UARTprintf("%x\r\n", startAddress); // Prints bits A7-A0
+
+}
+
+void EraseBlock(uint32_t startAddress)
+{
+        ChipSelect(~GPIO_PIN_3);    // Assert External Flash Chip Select
+
+        TransferByte(AT_WRITE_ENABLE); // Enable Write to Flash Memory
+
+        ChipSelect(GPIO_PIN_3);     // Deassert Flash ChipSelect to signal end of command
+        ChipSelect(~GPIO_PIN_3);   // Assert Flash ChipSelect again
+        TransferByte(AT_BLOCK_ERASE_64);
+
+        TransferByte((startAddress >> 16) & 0xFF);  // Extract Address bits A23-A16
+        TransferByte((startAddress >>  8) & 0xFF);  // Extract Address bits A15-A8
+        TransferByte((startAddress >>  0) & 0xFF);  // Extract Address bits A7-A0
+
+        ChipSelect(GPIO_PIN_3);     // Deassert Flash Chip Select to signal end of transmission.
+
+        //Wait for the Device to be ready again. The device needs time to erase.
+        DeviceBusyDelay();
+}
+
+void EraseChip(void)
+{
+       ChipSelect(~GPIO_PIN_3);         // Assert Flash Chip Select
+       TransferByte(AT_WRITE_ENABLE);   // Enable Write to Flash Memory
+       ChipSelect(GPIO_PIN_3);          // Deassert Chip Select to signal end of command.
+       ChipSelect(~GPIO_PIN_3);         // Assert Chip Select again to send Chip Erase command.
+       TransferByte(AT_CHIP_ERASE);
+       ChipSelect(GPIO_PIN_3);          // Deasset Chip Select to signal end of command.
+       UARTprintf("Erasing Chip ...\n");
+       DeviceBusyDelay();
+       UARTprintf("Chip has been successfully erased!\n\n");
 }
