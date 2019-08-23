@@ -1,7 +1,7 @@
 ******************************************************************************
                   TI ARM Linker Unix v18.12.2                  
 ******************************************************************************
->> Linked Thu Aug 22 18:33:49 2019
+>> Linked Thu Aug 22 19:16:22 2019
 
 OUTPUT FILE NAME:   <ExternalFlash.out>
 ENTRY POINT SYMBOL: "_c_int00_noargs"  address: 00001511
