@@ -123,34 +123,34 @@ endif
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXE_OUTPUTS += \
-ExternalFlash.out \
+Adesto_External_Flash.out \
 
 EXE_OUTPUTS__QUOTED += \
-"ExternalFlash.out" \
+"Adesto_External_Flash.out" \
 
 BIN_OUTPUTS += \
-ExternalFlash.hex \
+Adesto_External_Flash.hex \
 
 BIN_OUTPUTS__QUOTED += \
-"ExternalFlash.hex" \
+"Adesto_External_Flash.hex" \
 
 
 # All Target
 all: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
-	@$(MAKE) --no-print-directory -Onone "ExternalFlash.out"
+	@$(MAKE) --no-print-directory -Onone "Adesto_External_Flash.out"
 
 # Tool invocations
-ExternalFlash.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
+Adesto_External_Flash.out: $(OBJS) $(CMD_SRCS) $(GEN_CMDS)
 	@echo 'Building target: "$@"'
 	@echo 'Invoking: ARM Linker'
-	"/Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"ExternalFlash.map" --heap_size=0 --stack_size=512 -i"/Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/lib" -i"/Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="ExternalFlash_linkInfo.xml" --rom_model -o "ExternalFlash.out" $(ORDERED_OBJS)
+	"/Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/bin/armcl" -mv7M4 --code_state=16 --float_support=FPv4SPD16 -me --define=ccs="ccs" --define=PART_TM4C123GH6PM -g --gcc --diag_warning=225 --diag_wrap=off --display_error_number --abi=eabi -z -m"Adesto_External_Flash.map" --heap_size=0 --stack_size=512 -i"/Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/lib" -i"/Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/include" --reread_libs --diag_wrap=off --display_error_number --warn_sections --xml_link_info="Adesto_External_Flash_linkInfo.xml" --rom_model -o "Adesto_External_Flash.out" $(ORDERED_OBJS)
 	@echo 'Finished building target: "$@"'
 	@echo ' '
 
-ExternalFlash.hex: $(EXE_OUTPUTS)
+Adesto_External_Flash.hex: $(EXE_OUTPUTS)
 	@echo 'Building files: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo 'Invoking: ARM Hex Utility'
-	"/Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/bin/armhex"  -o "ExternalFlash.hex" $(EXE_OUTPUTS__QUOTED)
+	"/Applications/ti/ccs901/ccs/tools/compiler/ti-cgt-arm_18.12.2.LTS/bin/armhex"  -o "Adesto_External_Flash.hex" $(EXE_OUTPUTS__QUOTED)
 	@echo 'Finished building: $(strip $(EXE_OUTPUTS__QUOTED))'
 	@echo ' '
 
