@@ -216,7 +216,7 @@ void PrintPage(uint8_t *Data)
        uint8_t row, column;
        for (row = 0; row < 16; row++) {
            for (column = 0; column < 16; column++) {
-               UARTprintf("\%2x", Data[row * 16 + column]);
+               //UARTprintf("\%2\r\n", Data[((row * 16) + column)]);
            }
            UARTprintf("\n"); // Jump to next row.
        }
